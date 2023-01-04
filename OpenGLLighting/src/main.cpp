@@ -252,6 +252,7 @@ int main(void)
         //Transform and draw light box
         glBindVertexArray(lightVAO); //bind the VAO
 
+        lightShader.use();
         //Set model matrix
         glm::mat4 model = glm::mat4(1.0f); //create 4X4 identity matrix
         model = glm::translate(model, glm::vec3(0.0f, 0.0f, 10.0f)); //translate light position
@@ -278,11 +279,11 @@ int main(void)
         modelLoc = glGetUniformLocation(shaderProgram.ID, "model");
 
         //Set view matrix
-        unsigned int viewLoc = glGetUniformLocation(shaderProgram.ID, "view");
+        viewLoc = glGetUniformLocation(shaderProgram.ID, "view");
         glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
 
         //Set projection matrix
-        unsigned int projectionLoc = glGetUniformLocation(shaderProgram.ID, "projection");
+        projectionLoc = glGetUniformLocation(shaderProgram.ID, "projection");
         glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
         glBindVertexArray(VAO);
         for (unsigned int i = 0; i < 2; i++)

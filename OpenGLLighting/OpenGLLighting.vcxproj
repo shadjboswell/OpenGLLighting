@@ -137,10 +137,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Dependencies\include\shader.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\imageLoader.cpp" />
-    <ClCompile Include="src\shader.cpp" />
     <ClCompile Include="src\glad.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Dependencies\include\fragmentShader.txt" />
+    <Text Include="Dependencies\include\lightFragmentShader.txt" />
+    <Text Include="Dependencies\include\vertexShader.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Dependencies\include\camera.h" />
+    <ClInclude Include="Dependencies\include\shader.h" />
+    <ClInclude Include="Dependencies\include\stb_image.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="awesomeface.png" />
+    <Image Include="container.jpg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
