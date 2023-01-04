@@ -132,10 +132,8 @@ int main(void)
     glfwSetScrollCallback(window, scroll_callback);
 
     Shader shaderProgram("Dependencies/include/vertexShader.txt", "Dependencies/include/fragmentShader.txt");
-    Shader lightShader("Dependencies/include/vertexShader.txt", "Dependencies/include/lightFragmentShader.txt")
-    shaderProgram.use();
-    shaderProgram.setFloat("offset", 0.0f);
-    shaderProgram.setFloat("mixAmount", mixAmount);
+    Shader lightShader("Dependencies/include/vertexShader.txt", "Dependencies/include/lightFragmentShader.txt");
+
 
     float vertices[] = {
     -0.5f, -0.5f, -0.5f,
@@ -250,29 +248,46 @@ int main(void)
 
         glClearColor(0.90f, 0.90f, 0.98f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        shaderProgram.use();
-        unsigned int modelLoc = glGetUniformLocation(shaderProgram.ID, "model");
 
+        //Transform and draw light box
+        glBindVertexArray(lightVAO); //bind the VAO
+
+        //Set model matrix
+        glm::mat4 model = glm::mat4(1.0f); //create 4X4 identity matrix
+        model = glm::translate(model, glm::vec3(0.0f, 0.0f, 10.0f)); //translate light position
+        unsigned int modelLoc = glGetUniformLocation(lightShader.ID, "model"); //get uniform location in shader program
+        glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model)); //set uniform values in shader program
+
+        //Set view matrix
         glm::mat4 view;
-        view = getLookAt(camera.Position, camera.Position + camera.Front, camera.Up);
-        //view = glm::lookAt(camera.Position, camera.Position + camera.Front, camera.Up);
+        view = glm::lookAt(camera.Position, camera.Position + camera.Front, camera.Up);
+        unsigned int viewLoc = glGetUniformLocation(lightShader.ID, "view");
+        glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+
+        //Set projection matrix
+        unsigned int projectionLoc = glGetUniformLocation(lightShader.ID, "projection");
+        glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
+
+        //Draw the light box
+        glDrawArrays(GL_TRIANGLES, 0, 36); // draw the light box
+        glBindVertexArray(0); //unbind the VAO
+
+        shaderProgram.use(); // use new program
+
+        //Set model matrix
+        modelLoc = glGetUniformLocation(shaderProgram.ID, "model");
+
+        //Set view matrix
         unsigned int viewLoc = glGetUniformLocation(shaderProgram.ID, "view");
         glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+
+        //Set projection matrix
         unsigned int projectionLoc = glGetUniformLocation(shaderProgram.ID, "projection");
         glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
-        glBindVertexArray(lightVAO);
-
-        glm::mat4 lightModel = glm::mat4(1.0f);
-        lightModel = glm::translate(lightModel, glm::vec3(0.0f, 0.0f, 10.0f));
-        glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(lightModel));
-        glDrawArrays(GL_TRIANGLES, 0, 36);
-
-        glBindVertexArray(0);
-
         glBindVertexArray(VAO);
         for (unsigned int i = 0; i < 2; i++)
         {
-            glm::mat4 model = glm::mat4(1.0f);
+            model = glm::mat4(1.0f);
             model = glm::translate(model, cubePositions[i]);
             float angle = 20.0f * (i) * (float)glfwGetTime();
             model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
