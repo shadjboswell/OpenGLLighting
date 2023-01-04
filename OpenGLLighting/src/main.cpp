@@ -131,7 +131,7 @@ int main(void)
     glfwSetCursorPosCallback(window, mouse_callback);
     glfwSetScrollCallback(window, scroll_callback);
 
-    Shader shaderProgram("C:/dev/OpenGL/shaders/vertexShader.txt", "C:/dev/OpenGL/shaders/fragmentShader.txt");
+    Shader shaderProgram("Dependencies/include/vertexShader.txt", "Dependencies/include/fragmentShader.txt");
 
     shaderProgram.use();
     shaderProgram.setFloat("offset", 0.0f);
