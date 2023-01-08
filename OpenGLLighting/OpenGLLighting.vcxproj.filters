@@ -32,6 +32,7 @@
     <Text Include="Dependencies\include\fragmentShader.txt" />
     <Text Include="Dependencies\include\vertexShader.txt" />
     <Text Include="Dependencies\include\lightFragmentShader.txt" />
+    <Text Include="Dependencies\include\lightVertexShader.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dependencies\include\camera.h">

@@ -1,11 +1,27 @@
 #version 330 core
 layout (location = 0) in vec3 aPos;
-layout (location = 1) in vec3 aColor;
+layout (location = 1) in vec3 aNormal;
 uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
+uniform mat3 mvNormal;
+uniform vec3 lightPosUni;
+
+out vec3 normals;
+out vec3 fragPos;
+out vec3 lightPos;
 
 void main()
 {
-   gl_Position = projection * view * model * vec4(aPos, 1.0);
+	mat4 mv = view * model;
+
+	gl_Position = projection * mv * vec4(aPos, 1.0);
+
+	fragPos = vec3(mv * vec4(aPos, 1.0));
+
+	mat3 mNormals = mat3(transpose(inverse(mv)));
+
+	normals = mNormals * aNormal;
+
+	lightPos = vec3(view * vec4(lightPosUni,1.0));
 };

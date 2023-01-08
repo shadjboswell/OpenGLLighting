@@ -145,6 +145,7 @@
   <ItemGroup>
     <Text Include="Dependencies\include\fragmentShader.txt" />
     <Text Include="Dependencies\include\lightFragmentShader.txt" />
+    <Text Include="Dependencies\include\lightVertexShader.txt" />
     <Text Include="Dependencies\include\vertexShader.txt" />
   </ItemGroup>
   <ItemGroup>
