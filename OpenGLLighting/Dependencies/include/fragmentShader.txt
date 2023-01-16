@@ -23,7 +23,7 @@ void main()
     float cosTheta = max(dot(norm, lightDir), 0.0);
     vec3 diffuse = cosTheta * kD * lightColor;
 
-    float cosPhi = max(dot(viewDir, reflectDir),0.0);
+    float cosPhi = max(dot(norm, h),0.0);
     vec3 spec = pow(cosPhi,32) * kS * lightColor;
     vec3 ambient = 0.1 * lightColor;
 
